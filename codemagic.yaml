@@ -1,0 +1,41 @@
+name: Flutter Android Build
+
+on:
+  push:
+    branches:
+      - main # شغّل عند الدفع إلى الفرع "main"
+  pull_request:
+    branches:
+      - main # شغّل عند فتح طلب سحب إلى الفرع "main"
+
+jobs:
+  build:
+    runs-on: macos-latest # استخدم أحدث جهاز macOS
+
+    env:
+      API_KEY: ${{ secrets.API_KEY }} # استدعاء المتغير من Secrets
+      BACKEND_URL: ${{ secrets.BACKEND_URL }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3 # جلب الكود من المستودع
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable' # تثبيت إصدار Flutter
+
+      - name: Get Flutter Dependencies
+        run: flutter pub get # تثبيت التبعيات
+
+      - name: Run Tests
+        run: flutter test # تشغيل الاختبارات
+
+      - name: Build APK
+        run: flutter build apk --release # بناء ملف APK
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk # مسار ملف APK
