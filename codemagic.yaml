@@ -23,4 +23,4 @@ workflows:
     publishing: # النشر (اختياري)
       email: # إرسال إشعار عبر البريد
         recipients:
-          - your-email@example.com # استبدل بالبريد الإلكتروني الخاص بك
+          - dr.remo.hisham.1@gmail.com # استبدل بالبريد الإلكتروني الخاص بك
